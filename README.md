@@ -25,4 +25,35 @@ The goal of this project is to demonstrate **container security, vulnerability m
 
 ---
 
-## 🏗 Architecture
+## Project Structure
+container-security-orchestrator/
+│
+├── orchestrator.py              # Python orchestration logic
+├── Dockerfile                   # Docker image definition
+├── requirements.txt             # Python dependencies
+├── sample-reports/
+│   └── trivy-report.json        # Sample vulnerability scan output
+│
+├── .github/
+│   └── workflows/
+│       └── security-scan.yml    # CI/CD pipeline configuration
+│
+└── README.md
+
+---
+
+## Build & Run Locally
+**Build the Docker image**
+docker build -t container-security-orchestrator .
+**Run the orchestrator**
+docker run --rm container-security-orchestrator
+
+---
+
+## How It Works
+1.The orchestrator pulls a target Docker image
+2.Trivy scans the image for:
+    OS vulnerabilities
+    Package vulnerabilities
+3.Scan results are saved in JSON format
+4.Reports can be consumed by CI/CD pipelines or security teams
