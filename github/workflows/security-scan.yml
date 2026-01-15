@@ -1,0 +1,28 @@
+name: Container Image Security Scan
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build orchestrator image
+        run: |
+          docker build -t container-security-orchestrator .
+
+      - name: Run Trivy security scan
+        env:
+          IMAGE_NAME: nginx:latest
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        run: |
+          docker run \
+            -e IMAGE_NAME \
+            -e SLACK_WEBHOOK \
+            container-security-orchestrator
